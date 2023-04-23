@@ -12,8 +12,7 @@
  */
 
 // Your code goes here...
-
-
+const allItems = document.querySelectorAll('.item');
 
 /**
  * @task
@@ -23,8 +22,7 @@
  * */
 
 // Your code goes here
-
-
+const main = document.getElementById('main');
 
 /**
  * @task
@@ -34,8 +32,7 @@
  */
 
 // Your code goes here
-
-
+const favs = document.getElementById('favs');
 
 /**
  * @task
@@ -47,8 +44,22 @@
  */
 
 // Your code goes here
+function updateCollections(id, direction) {
+  const item = document.getElementById(id);
+  const newParent = direction === 'toMain' ? main : favs;
+  const parent = item.parentElement.id;
 
-
+  if (parent === 'main') {
+    const icon = item.querySelector('.fa-heart-circle-plus');
+    icon.classList.remove('fa-heart-circle-plus');
+    icon.classList.add('fa-heart-crack');
+  } else {
+    const icon = item.querySelector('.fa-heart-crack');
+    icon.classList.remove('fa-heart-crack');
+    icon.classList.add('fa-heart-circle-plus');
+  };
+  newParent.appendChild(item);
+};
 
 /**
  * @task
@@ -64,6 +75,12 @@
  * * Make the updateCollections function call, assign the item Id and the direction defined above
  */
 
-// Your code goes here...
-
-
+// Your code goes here
+for (const item of allItems) {
+  item.addEventListener('click', () => {
+    const itemId = item.id;
+    const parentId = item.parentElement.id;
+    const direction = parentId === 'main' ? 'toFavs' : 'toMain';
+    updateCollections(itemId, direction);
+  });
+};

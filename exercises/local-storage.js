@@ -38,3 +38,51 @@
  */
 
 // Your code goes here...
+const container = document.querySelector('.cardsContainer');
+if (!localStorage.getItem('favorites')) {
+  const idList = JSON.stringify([]);
+  localStorage.setItem('favorites', idList);
+};
+
+const addIdToFavoritesLs = (id) => {
+  let lsArray = JSON.parse(localStorage.getItem('favorites'));
+  lsArray.push(id);
+  const newArr = JSON.stringify(lsArray);
+  localStorage.setItem('favorites', newArr);
+};
+
+const deleteToFavoritesLs = (id) => {
+  let lsArray = JSON.parse(localStorage.getItem('favorites'));
+  lsArray = lsArray.filter((val) => val !== id);
+  const newArr = JSON.stringify(lsArray);
+  localStorage.setItem('favorites', newArr);
+};
+
+const backgroundColorChange = (id, element) => {
+  if (localStorage.getItem('favorites').includes(id)) {
+    element.style.backgroundColor = 'red';
+  };
+};
+
+const allCards = document.querySelectorAll('.card');
+
+for (card of allCards) {
+  const cardId = card.id;
+  backgroundColorChange(cardId, card);
+};
+
+const settingItemRed = (e) => {
+  const card = e.target;
+  const cardId = e.target.id;
+  if (Array.from(card.classList).includes('card')) {
+    if (!card.style.backgroundColor || card.style.backgroundColor === 'white') {
+      card.style.backgroundColor = 'red';
+      addIdToFavoritesLs(cardId);
+    } else {
+      card.style.backgroundColor = 'white';
+      deleteToFavoritesLs(cardId);
+    };
+  };
+};
+
+container.addEventListener('click', settingItemRed);
